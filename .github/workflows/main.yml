@@ -26,14 +26,14 @@ jobs:
       - name: downlaod and upzip ffmpeg
         run: |
              Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.0.2-full_build.7z" -OutFile .\ffmpeg.7z
-             .\7za.exe x .\ffmpeg.7z -o.\ffmpeg
+             .\7za.exe x .\ffmpeg.7z
              $Env:PATH += ".\ffmpeg"
       - name: run python
         uses: actions/setup-python@v5
         with:
           python-version: '3.8.0'
       - run: pip install requests
-      - run: pip install ffmpy3
+      #- run: pip install ffmpy3
       #- run: 
       - run: python .\downlaodvideo.py
     

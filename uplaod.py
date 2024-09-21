@@ -228,5 +228,3 @@ def uploader(file_path):
                     start+=1
                     
             CompleteUpload(upload_data,filesize)
-
-#uploader('/data/user/0/coding.yu.pythoncompiler.new/files/default.py')

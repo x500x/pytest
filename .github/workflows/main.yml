@@ -35,6 +35,6 @@ jobs:
           python-version: '3.8.0'
       - run: pip install requests
       #- run: pip install ffmpy3
-      #- run: 
+      - run: pip install you-get
       - run: python .\downlaodvideo.py
     

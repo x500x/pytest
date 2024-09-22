@@ -7,6 +7,7 @@ from uplaod import uploader
 Downloadvideo_path="D:\\a\\pytest\\pytest\\"
 Downloadvideo_name="1.mp4"
 #os.system("you-get https://b23.tv/CstBqCK -i -c .\\c.txt")
-os.system("you-get https://b23.tv/CstBqCK -O 1 -o D:\\a\\pytest\\pytest\\ -c .\\c.txt")
+os.system("you-get https://b23.tv/CstBqCK -O 1 -o D:\\a\\pytest\\pytest -c .\\c.txt")
+os.system("dir D:\\a\\pytest\\pytest /s")
 print(Downloadvideo_path+Downloadvideo_name)
 uploader(Downloadvideo_path+Downloadvideo_name)

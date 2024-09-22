@@ -6,5 +6,5 @@ from uplaod import uploader
 
 Downloadvideo_path=".\\1.mp4"
 os.system("you-get https://b23.tv/CstBqCK -i"
-os.system("you-get https://b23.tv/CstBqCK -O 1 -o . -format: dash-flv")
+os.system("you-get https://b23.tv/CstBqCK -O 1 -o . --format=flv1080")
 uploader(Downloadvideo_path)

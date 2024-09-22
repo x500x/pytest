@@ -1,0 +1,21 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.bilibili.com	TRUE	/	FALSE	1813383708	buvid3	5DB8C962-2D17-F8B0-2EA3-26178B76DA0C08437infoc
+.bilibili.com	TRUE	/	FALSE	1758519708	b_nut	1726983708
+.bilibili.com	TRUE	/	FALSE	0	share_source_origin	COPY
+.bilibili.com	TRUE	/	FALSE	0	bsource	share_source_copy_link
+.bilibili.com	TRUE	/	FALSE	0	b_lsid	68D34101E_19218402867
+.bilibili.com	TRUE	/	FALSE	1758519710	_uuid	8E159714-1072D-59D3-5DB2-DFBE1082DCDE510832infoc
+.bilibili.com	TRUE	/	FALSE	1821591711	buvid4	87E12D32-2C10-6E93-A530-06B244D3303E10725-124092205-AhHNqLxxVwMFw5L89ZErYi%2FZgOi3nnjpKt0rjGnudxf6qAuejYT6JYeStu%2Bx%2BS2R
+.bilibili.com	TRUE	/	FALSE	1821591722	buvid_fp	e7512dc66c04b4a4ae9b3bbc774d659b
+.bilibili.com	TRUE	/	FALSE	1758519737	CURRENT_FNVAL	4048
+.bilibili.com	TRUE	/	FALSE	1727242938	bili_ticket	eyJhbGciOiJIUzI1NiIsImtpZCI6InMwMyIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjcyNDI5MzcsImlhdCI6MTcyNjk4MzY3NywicGx0IjotMX0.NuMSrUxXUTP3d1k_EJ8u5ueOL1BQREK_W43d5f27JLQ
+.bilibili.com	TRUE	/	FALSE	1727242938	bili_ticket_expires	1727242877
+.bilibili.com	TRUE	/	FALSE	1821591739	rpdid	0zbfAHToxT|iamHtEPR|o1y|3w1SSfmr
+.bilibili.com	TRUE	/	TRUE	1742535772	SESSDATA	9ae40e2f%2C1742535772%2Cafe27%2A91CjDzvgIm21yAaNx1_MmlbUGp5aNJM52Y9RSOmpiZ-76yU7Aa9p_cHrbMh6oD8Bz2vzASVmxlNlhRQ2VFMlItNEFaeTNfOWJhd3Y0WVQ3V3I2MG9zc3dkQjgzVk14SDMtcjNyUUhDaGRMc0RfRHphaGNDbXpoZ0pSQnk1dzFjai0wRXEyQWtYdGN3IIEC
+.bilibili.com	TRUE	/	FALSE	1742535772	bili_jct	81f3bcd2ef309574d4f49a843280a52e
+.bilibili.com	TRUE	/	FALSE	1742535772	DedeUserID	675239530
+.bilibili.com	TRUE	/	FALSE	1742535772	DedeUserID__ckMd5	f64e0c0b1ff30cc0
+.bilibili.com	TRUE	/	FALSE	0	sid	q8u9em6z

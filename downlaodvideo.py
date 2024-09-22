@@ -10,5 +10,5 @@ audio_url='"https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/53/73/1167117353/1
 
 Downloadvideo_path=".\\1.mp4"
 
-os.system(".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe "+header_arg+" -i "+video_url+" -i "+audio_url+" -c:v copy -c:a copy -f mp4 "+Downloadvideo_path)
+os.system(".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe "+header_arg+" -i "+video_url+" -i  "+header_arg+" "+audio_url+" -c:v copy -c:a copy -f mp4 "+Downloadvideo_path)
 uploader(Downloadvideo_path)

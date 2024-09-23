@@ -36,5 +36,6 @@ jobs:
       - run: pip install requests
       #- run: pip install ffmpy3
       - run: pip install you-get
+      - run: pip install FFmpeg
       - run: python .\downlaodvideo.py
     

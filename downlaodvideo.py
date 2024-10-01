@@ -56,7 +56,6 @@ def GetVideoUrl(bvid,cid):
     url = "https://api.bilibili.com/x/player/wbi/playurl"
     
     params = {
-      #'avid': "113079677358064",
       'bvid': str(bvid),
       'cid': str(cid),
       'qn': "80",
@@ -68,11 +67,7 @@ def GetVideoUrl(bvid,cid):
       'is_main_page': "true",
       'need_fragment': "false",
       'isGaiaAvoided': "false",
-      'session': "422820c13f2ecbd75d6abea9c15057b0",
-      'voice_balance': "1",
-      'web_location': "1315873",
-      'w_rid': "5a2bba65ccdba7282c5a71a4994b3e7b",
-      'wts': "1726375088"
+      'voice_balance': "1"
     }
     
     headers = {
@@ -84,7 +79,7 @@ def GetVideoUrl(bvid,cid):
       'sec-fetch-site': "same-site",
       'sec-fetch-mode': "cors",
       'sec-fetch-dest': "empty",
-      'referer': "https://www.bilibili.com/video/BV1qjpweJEhW/?p=1&spm_id_from=pageDriver",
+      'referer': "https://www.bilibili.com",
       'accept-language': "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
       'Cookie': "buvid3=262D7070-E130-9F55-9D42-98C995D524F590651infoc; b_nut=1708175490; _uuid=D1028DD5A-29EB-377C-4A99-E102539563AA392917infoc; buvid4=BD8FEA68-08A8-B28D-6BC6-70023A6643CE93035-124021713-pYdguYw9VMhQEP7Z3DDf+g%3D%3D; buvid_fp=cae4ff07cbccaf2d9ad7c382f475ca1e; header_theme_version=CLOSE; enable_web_push=DISABLE; home_feed_column=4; browser_resolution=1100-2038; CURRENT_FNVAL=4048; rpdid=|(um~kmmmuRR0J'u~kJ|k~|uu; bsource_origin=share_source_copy_link; bsource=share_source_copy_link; b_lsid=84A56233_191F3F7CD7B; bili_ticket=eyJhbGciOiJIUzI1NiIsImtpZCI6InMwMyIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjY2MzQxOTgsImlhdCI6MTcyNjM3NDkzOCwicGx0IjotMX0.OyhYUKZD_yZtZ7paJMVXwXV3TlVQaWES_edYj0Nx-Yw; bili_ticket_expires=1726634138; SESSDATA=04f58f3c%2C1741927067%2C744f3%2A92CjAUDVdn7SIkv0YDw2M4LsIrO6i_e2HMc6TgWohZgXZ44w94_91cr89zgfx8FUpV7WQSVlA2Q3RQeHBja0hRbkdiai1SaWtzT3VuTy03T2hFOEhsaGxvNXNPR2dXMHB1ZERDSGFBSGdhVk5GYXUxa2w4cVQ2emZuZnBHeTlEUFpwSUtIbDBhODZnIIEC; bili_jct=41714ce64b2c0dbd29994cee8b050ce9; DedeUserID=675239530; DedeUserID__ckMd5=f64e0c0b1ff30cc0; sid=6ydzy6fo; CURRENT_QUALITY=80"
     }

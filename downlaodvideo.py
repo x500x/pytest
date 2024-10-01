@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+# -*- coding: UTF-8 -*-
 #from icecream import ic
 import requests
 import re
@@ -7,10 +7,8 @@ import os
 import concurrent.futures
 import threading
 from uploadEx import uploader,download_flag,downfile_list
-#import sys
-#import io
-
-#51
+import sys
+import io
 
 
 def downloader(url, local_filename):
@@ -46,10 +44,13 @@ def ProcessTask(video_url,audio_url,file_path):
     try:
         os.remove(file_path+'[00].m4s')
         os.remove(file_path+'[01].m4s')
-        print(f'File {file_path} deleted successfully.')
+        #print(f'File {file_path} deleted successfully.')
     except OSError as e:
         print(f'Error occurred: {e}')
-    
+    if os.path.isfile(file_path+".mp4"):
+        return file_path+".mp4"
+    else:
+        return ""
     
 def GetVideoUrl(bvid,cid):
     url = "https://api.bilibili.com/x/player/wbi/playurl"
@@ -120,7 +121,8 @@ def fin_data(_url):
  
 def extract_and_process_content(content):
     global downfile_list #for 123
-    global downfilelist #for github
+    #global downfilelist #for github
+    global download_flag
     # 使用正则表达式提取部分内容
     #pattern = re.compile(r'"part":"([^"]+)"')
     #pattern = 
@@ -136,43 +138,44 @@ def extract_and_process_content(content):
     part_lists=re.compile(r'"part":"([^"]+)"').findall(content)
     
     print(str(len(part_lists)))
-    def decode_unicode(text):
-        return json.loads('"' + text + '"')
+    #def decode_unicode(text):
+    #    return json.loads('"' + text + '"')
  
     # 打印提取的并转换后的内容
     start=0
-    for i in range(start,start+1):
-        if i>len(part_lists)-1:
-            print('auto finish')
-            break
-        decoded_content = decode_unicode(part_lists[i])
-        #GetVideoUrl(cid_lists[i+1])
-        print(decoded_content.strip()+".mp4")
-        print('cid:'+str(cid_lists[i+1]))
-        video_url,audio_url=GetVideoUrl(bvid.group(1),cid_lists[i+1])
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            p=pool.submit(ProcessTask, args=(video_url,audio_url,".\\"+decoded_content.strip()))
-            process_lists.append(p)
-        #wait()
-        for task in process_lists:
-            if task.done():
-                if task.result()!="":
-                    downfile_list.append(task.result())
-                    downfilelist.append(task.result())
-                process_lists.remove(task)
-        #break
-        #f.writelines(GetVideoUrl(bvid.group(1),cid_lists[i+1])+'\n')
-        #f.writelines(decoded_content.strip()+".mp4\n")
-        #if i%2==0:
-        #    input()
-        #    for n in range(1,100):
-        #        os.system('clear')
-        #        print('\033[2J\033[H', end='')
+    with ProcessPoolExecutor(max_workers=3) as executor:
+        for i in range(start,start+1):
+            if i>len(part_lists)-1:
+                print('auto finish')
+                break
+            #decoded_content = decode_unicode(part_lists[i])
+            #GetVideoUrl(cid_lists[i+1])
+            #print(part_lists[i].strip()+".mp4")
+            #print('cid:'+str(cid_lists[i+1]))
+            video_url,audio_url=GetVideoUrl(bvid.group(1),cid_lists[i+1])
             
-        #print(matches[i])
+            p=pool.submit(ProcessTask, args=(video_url,audio_url,".\\"+part_lists[i].strip()))
+            process_lists.append(p)
+            #wait()
+            for task in process_lists:
+                if task.done():
+                    if task.result()!="":
+                        downfile_list.append(task.result())
+                        #downfilelist.append(task.result())
+                    process_lists.remove(task)
+        while len(process_lists)!=0:
+            for task in process_lists:
+                if task.done():
+                    if task.result()!="":
+                        downfile_list.append(task.result())
+                        #downfilelist.append(task.result())
+                    process_lists.remove(task)
+    download_flag=1
+
         
  
 if __name__ == '__main__':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     url = 'https://b23.tv/CstBqCK'  # 替换为实际的网页链接
     #filepath='/data/user/0/coding.yu.pythoncompiler.new/files/1.txt'
     webpage_content = fin_data(url)
@@ -185,6 +188,6 @@ if __name__ == '__main__':
         t.start()
         extract_and_process_content(webpage_content)
     #ftp_upload(filepath)
-    t.join()
+    #t.join()
     print("done")
     

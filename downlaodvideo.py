@@ -5,8 +5,8 @@ import re
 import json
 import os
 import concurrent.futures
-import time
-import 123uploadEx
+import threading
+from uploadEx import uploader,download_flag,downfile_list
 #import sys
 #import io
 
@@ -120,8 +120,7 @@ def fin_data(_url):
  
 def extract_and_process_content(content):
     global downfile_list #for 123
-    #global downfilelist #for github
-    global download_flag
+    global downfilelist #for github
     # 使用正则表达式提取部分内容
     #pattern = re.compile(r'"part":"([^"]+)"')
     #pattern = 
@@ -141,8 +140,7 @@ def extract_and_process_content(content):
         return json.loads('"' + text + '"')
  
     # 打印提取的并转换后的内容
-    #start=int(input())-1
-    start=0
+    start=int(input())-1
     for i in range(start,start+10):
         if i>len(part_lists)-1:
             print('auto finish')
@@ -156,17 +154,12 @@ def extract_and_process_content(content):
             p=pool.submit(ProcessTask, args=(video_url,audio_url,".\\"+decoded_content.strip()))
             process_lists.append(p)
         #wait()
-        while True:
-            for task in process_lists:
-                if task.done():
-                    if task.result()!="":
-                        downfile_list.append(task.result())
-                        downfilelist.append(task.result())
-                    process_lists.remove(task)
-            time.sleep(1)
-            if len(process_lists)==0:
-                download_flag=1
-                break
+        for task in process_lists:
+            if task.done():
+                if task.result()!="":
+                    downfile_list.append(task.result())
+                    downfilelist.append(task.result())
+                process_lists.remove(task)
         #break
         #f.writelines(GetVideoUrl(bvid.group(1),cid_lists[i+1])+'\n')
         #f.writelines(decoded_content.strip()+".mp4\n")
@@ -184,11 +177,14 @@ if __name__ == '__main__':
     #filepath='/data/user/0/coding.yu.pythoncompiler.new/files/1.txt'
     webpage_content = fin_data(url)
     #i=0
+    t=threading.Thread(target=uploader)
     if webpage_content:
         #with open(filepath,"w", encoding='utf-8') as f:
         #    #print(str(i))
         #    extract_and_process_content(webpage_content,f)
+        t.start()
         extract_and_process_content(webpage_content)
     #ftp_upload(filepath)
+    t.join()
     print("done")
     

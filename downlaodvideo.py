@@ -70,9 +70,7 @@ def GetVideoUrl(bvid,cid):
       'isGaiaAvoided': "false",
       'session': "422820c13f2ecbd75d6abea9c15057b0",
       'voice_balance': "1",
-      'web_location': "1315873",
-      'w_rid': "5a2bba65ccdba7282c5a71a4994b3e7b",
-      'wts': "1726375088"
+      'web_location': "1315873"
     }
     
     headers = {
@@ -91,6 +89,7 @@ def GetVideoUrl(bvid,cid):
     
     response = requests.get(url, params=params, headers=headers)
     #print('')
+    print("cid::"+str(cid))
     print(response.text)
     #data = json.loads(json_data)
 

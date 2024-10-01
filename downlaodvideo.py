@@ -71,7 +71,7 @@ def GetVideoUrl(bvid,cid):
     }
     
     headers = {
-      'User-Agent': "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+      'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
       'Accept': "application/json, text/plain, */*",
       'Accept-Encoding': "gzip, deflate",
       'origin': "https://www.bilibili.com",

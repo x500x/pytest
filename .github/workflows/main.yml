@@ -28,7 +28,7 @@ jobs:
              Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.0.2-full_build.7z" -OutFile .\ffmpeg.7z
              .\7za.exe x .\ffmpeg.7z
              .\7za.exe l .\ffmpeg.7z
-             $Env:PATH += ".\ffmpeg"
+             $Env:PATH += ".\"
       - name: run python
         uses: actions/setup-python@v5
         with:

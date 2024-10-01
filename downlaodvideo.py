@@ -4,7 +4,7 @@ import requests
 import re
 import json
 import os
-import concurrent.futures
+from concurrent.futures import ProcessPoolExecutor
 import threading
 from uploadEx import uploader,download_flag,downfile_list
 import sys

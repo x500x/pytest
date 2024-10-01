@@ -140,8 +140,8 @@ def extract_and_process_content(content):
         return json.loads('"' + text + '"')
  
     # 打印提取的并转换后的内容
-    start=int(input())-1
-    for i in range(start,start+10):
+    start=0
+    for i in range(start,start+1):
         if i>len(part_lists)-1:
             print('auto finish')
             break

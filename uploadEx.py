@@ -10,6 +10,15 @@ import gc
 downfile_list=[]
 download_flag=0 #1->have done download,0->not
 
+def ChangeVar(downfilepath='',downloadflag=0):
+    global downfile_list
+    global download_flag
+    print(downfilepath)
+    print(str(downloadflag))
+    if downfilepath!="": downfile_list.append(downfilepath)
+    download_flag=downloadflag
+    print(f"ChangeVar Called,downfile_list={downfile_list},download_flag={download_flag}")
+
 headers = {
       'User-Agent': "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
       'Accept-Encoding': "gzip, deflate",

@@ -6,7 +6,7 @@ import json
 import os
 from concurrent.futures import ProcessPoolExecutor
 import threading
-from uploadEx import uploader,download_flag,downfile_list
+from uploadEx import uploader,ChangeVar
 import sys
 import io
 import subprocess
@@ -61,9 +61,9 @@ def ProcessTask(video_url,audio_url,file_path):
 
  
 def assignTask(f):
-    global downfile_list #for 123
+    #global downfile_list #for 123
     #global downfilelist #for github
-    global download_flag
+    #global download_flag
     process_lists=[]
     with ProcessPoolExecutor(max_workers=3) as executor:
         while True:
@@ -80,23 +80,24 @@ def assignTask(f):
             for task in process_lists:
                 if task.done():
                     print("task done")
-                    print("result:"+task.result)
+                    print("result:"+task.result())
                     if task.result()!="":
-                        downfile_list.append(task.result())
-                        print(downfile_list)
+                        ChangeVar(downfilepath=task.result())
+                        #print(downfile_list)
                         #downfilelist.append(task.result())
                     process_lists.remove(task)
         while len(process_lists)!=0:
             for task in process_lists:
                 if task.done():
                     print("task done")
-                    print("result:"+task.result)
+                    print("result:"+task.result())
                     if task.result()!="":
-                        downfile_list.append(task.result())
-                        print(downfile_list)
+                        #downfile_list.append(task.result())
+                        ChangeVar(downfilepath=task.result())
+                        #print(task.result())
                         #downfilelist.append(task.result())
                     process_lists.remove(task)
-    download_flag=1
+    ChangeVar(downloadflag=1)
 
         
  
@@ -109,6 +110,6 @@ if __name__ == '__main__':
       t.join()
     
     t.join()
-    print(downfile_list)
+    #print(downfile_list)
     print("done")
     

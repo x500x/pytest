@@ -60,7 +60,7 @@ def assignTask(f):
     global downfile_list #for 123
     #global downfilelist #for github
     global download_flag
-    
+    process_lists=[]
     with ProcessPoolExecutor(max_workers=3) as executor:
         while True:
             video_url=f.readline().strip()
@@ -97,5 +97,7 @@ if __name__ == '__main__':
       t.start()
       uploader()
       t.join()
+    
+    t.join()
     print("done")
     

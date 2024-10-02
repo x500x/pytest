@@ -10,7 +10,9 @@ from uploadEx import uploader,download_flag,downfile_list
 import sys
 import io
 import subprocess
-
+from urllib.parse import urlparse, parse_qs
+import urllib.error
+import urllib.request
 
 def downloader(url, local_filename):
     opener = urllib.request.build_opener()

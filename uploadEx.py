@@ -240,7 +240,7 @@ def uploader():
                 file_path=""
                 filename=""
                 filesize=0
-                #print('loop')
+                print('loop')
                 #fileinfo[filepath]=f.readline().strip().replace('\n',''))
                 if len(downfile_list)==0 and download_flag==1:
                     #print('case 1')

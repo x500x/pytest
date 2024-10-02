@@ -78,6 +78,7 @@ def assignTask(f):
                 if task.done():
                     if task.result()!="":
                         downfile_list.append(task.result())
+                        print(downfile_list)
                         #downfilelist.append(task.result())
                     process_lists.remove(task)
         while len(process_lists)!=0:
@@ -85,6 +86,7 @@ def assignTask(f):
                 if task.done():
                     if task.result()!="":
                         downfile_list.append(task.result())
+                        print(downfile_list)
                         #downfilelist.append(task.result())
                     process_lists.remove(task)
     download_flag=1
@@ -100,5 +102,6 @@ if __name__ == '__main__':
       t.join()
     
     t.join()
+    print(downfile_list)
     print("done")
     

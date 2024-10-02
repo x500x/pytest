@@ -17,7 +17,7 @@ import urllib.request
 def downloader(url, local_filename):
     opener = urllib.request.build_opener()
     # 构建请求头列表每次随机选择一个
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0')]
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36')]
     urllib.request.install_opener(opener)
     try:
        urllib.request.urlretrieve(url, local_filename)
@@ -25,6 +25,8 @@ def downloader(url, local_filename):
        return 0
     except urllib.error.HTTPError as e:
        print("HTTPError:", str(e))
+       #print(url)
+       #print(local_filename)
        return 1
     except urllib.error.URLError as e:
        print("URLError:", str(e))
@@ -37,11 +39,11 @@ def downloader(url, local_filename):
 def ProcessTask(video_url,audio_url,file_path):
     if 0!=downloader(video_url,file_path+'[00].m4s'):
         if 0!=downloader(video_url,file_path+'[00].m4s'):
-            print("downerr::"+file_path+'[00].m4s')
+            #print("downerr::"+file_path.encode()+'[00].m4s')
             return ""
     if 0!=downloader(audio_url,file_path+'[01].m4s'):
         if 0!=downloader(audio_url,file_path+'[01].m4s'):
-            print("downerr::"+file_path+'[01].m4s')
+            #print("downerr::"+file_path+'[01].m4s')
             return ""
     subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].mp4 -c:v copy -c:a copy -f mp4 {file_path}.mp4", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:

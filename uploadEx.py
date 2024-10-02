@@ -291,7 +291,7 @@ def uploader():
                 #print('upload_info='+str(len(upload_info)))
                 #print('upload_data='+str(len(upload_data)))
                 
-                if if isinstance(upload_data,type(None)):
+                if isinstance(upload_data,type(None)):
                     print('get upload_data err')
                 else:
                     if True==upload_data['Reuse']:

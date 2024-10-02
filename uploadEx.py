@@ -207,7 +207,7 @@ def CheckUploadList(upload_data,filepath):
     return info
     
 def CheckThreadStatus(task_lists,upload_data_list):
-    #print("CheckThreadStatus called")
+    
     #time.sleep(12)
     #return
     for task in task_lists:
@@ -221,9 +221,14 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     upload_data=upload_data_list[task.result()]
                     #print(upload_data)
                     upload_data['nowpartnumber']+=1
+                    print(f"CheckThreadStatus called,nowpartnumber={upload_data['nowpartnumber']},parts={upload_data['parts']}")
                     if upload_data['nowpartnumber']==upload_data['parts']:
                         
                         CompleteUpload(upload_data)
+                        try:
+                            os.remove(upload_data['filepath'])
+                        except OSError as e:
+                            print(f'Error occurred: {e}')
                 else:
                     print('there hava an error about putfile')
             except Exception as e:
@@ -306,6 +311,7 @@ def uploader():
                         print(f"parts={upload_data['parts']}")
                         upload_data['nowpartnumber']=0
                         upload_data['filesize']=filesize
+                        upload_data['filepath']=file_path
                         upload_data_list[int(upload_data['FileId'])]=upload_data
                         print(upload_data_list[int(upload_data['FileId'])])
                         
@@ -316,6 +322,10 @@ def uploader():
                             #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
                             if start-1==upload_data['parts']:
                                 CompleteUpload(upload_data)
+                                try:
+                                    os.remove(upload_data['filepath'])
+                                except OSError as e:
+                                    print(f'Error occurred: {e}')
                                 continue
                             for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
                                 while True:
@@ -325,9 +335,7 @@ def uploader():
                                         print(f"a task has append,now tasklen={len(task_lists)}")
                                         start+=1
                                         break
-                                    #else:
-                                    #    pass
-                                        #prepareForFutureUpload()
+                                    
                                     CheckThreadStatus(task_lists,upload_data_list)
                                     time.sleep(1)
                         CheckThreadStatus(task_lists,upload_data_list)

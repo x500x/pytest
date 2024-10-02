@@ -26,7 +26,7 @@ def downloader(url, local_filename):
                         f.flush()
     except Exception as e:
        print("err:", str(e))
-    r.raise_for_status()
+       r.raise_for_status()
        return 1
     return 0
 

@@ -10,31 +10,27 @@ from uploadEx import uploader,download_flag,downfile_list
 import sys
 import io
 import subprocess
-from urllib.parse import urlparse, parse_qs
-import urllib.error
-import urllib.request
 
 def downloader(url, local_filename):
-    opener = urllib.request.build_opener()
-    # 构建请求头列表每次随机选择一个
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36')]
-    opener.addheaders = [('referer', 'https://www.bilibili.com')]
-    urllib.request.install_opener(opener)
+    headers = {
+  'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+  'referer': "https://www.bilibili.com",
+    }
     try:
-       urllib.request.urlretrieve(url, local_filename)
-       print("file download success")
-       return 0
-    except urllib.error.HTTPError as e:
-       print("HTTPError:", str(e))
-       #print(url)
-       #print(local_filename)
-       return 1
-    except urllib.error.URLError as e:
-       print("URLError:", str(e))
-       return 2
+        with requests.get(url, headers=headers,stream=True) as r:
+            #r.raise_for_status()
+            with open(local_filename, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=1024*1024):
+                    if chunk:
+                        f.write(chunk)
+                        f.flush()
     except Exception as e:
        print("err:", str(e))
-       return 3
+    r.raise_for_status()
+       return 1
+    return 0
+
+
 
 
 def ProcessTask(video_url,audio_url,file_path):

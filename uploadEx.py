@@ -7,7 +7,6 @@ import hashlib
 from urllib.parse import urlparse, parse_qs
 import gc
 
-
 downfile_list=[]
 download_flag=0 #1->have done download,0->not
 
@@ -36,7 +35,7 @@ def preUpload(md5_hash,filename,filesize):
       "driveId": 0,
       "etag": md5_hash.hexdigest(),
       "fileName": str(filename),
-      "parentFileId": 0,
+      "parentFileId": 9411766,
       "size": filesize,
       "type": 0,
       "RequestSource": None,

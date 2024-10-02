@@ -204,6 +204,8 @@ def CheckUploadList(upload_data,filepath):
             print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
             print('nowsize='+str(info['nowsize']))
     info['nowPartNumber']+=1
+    if info['nowPartNumber']==upload_data['parts']:
+         CompleteUpload(upload_data)
     return info
     
 def CheckThreadStatus(task_lists,upload_data_list):
@@ -222,7 +224,6 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     #print(upload_data)
                     upload_data['nowpartnumber']+=1
                     if upload_data['nowpartnumber']==upload_data['parts']:
-                        
                         
                         CompleteUpload(upload_data)
                 else:

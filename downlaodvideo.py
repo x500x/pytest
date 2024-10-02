@@ -78,7 +78,7 @@ def assignTask(f):
                 #download_flag=1
                 #print("when read file,there has a err")
                 break
-            p=executor.submit(ProcessTask,video_url,audio_url,".\\"+name)
+            p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
             process_lists.append(p)
             #wait()
             for task in process_lists:

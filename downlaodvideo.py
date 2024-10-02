@@ -46,8 +46,8 @@ def ProcessTask(video_url,audio_url,file_path):
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
     print(f"ret={ret}")
-    if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
-    if os.path.isfile(file_path+'[01].m4s'): print("exist 01")
+    #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
+    #if os.path.isfile(file_path+'[01].m4s'): print("exist 01")
 
     try:
         os.remove(file_path+'[00].m4s')
@@ -56,7 +56,7 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        print("file downed")
+        #print("file downed")
         return file_path+".mp4"
     else:
         print("file does not exist")
@@ -84,8 +84,8 @@ def assignTask(f):
             #wait()
             for task in process_lists:
                 if task.done():
-                    print("task done")
-                    print("result:"+task.result())
+                    #print("task done")
+                    #print("result:"+task.result())
                     if task.result()!="":
                         ChangeVar(downfilepath=task.result())
                         #print(downfile_list)
@@ -94,8 +94,8 @@ def assignTask(f):
         while len(process_lists)!=0:
             for task in process_lists:
                 if task.done():
-                    print("task done")
-                    print("result:"+task.result())
+                    #print("task done")
+                    #print("result:"+task.result())
                     if task.result()!="":
                         #downfile_list.append(task.result())
                         ChangeVar(downfilepath=task.result())

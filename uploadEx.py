@@ -176,7 +176,7 @@ def CheckUploadList(upload_data,filepath):
     while 200!=response.status_code:
         print('CheckUploadListcalled,status_code='+str(response.status_code))
         response = requests.post(url,  data=payload, headers=headers)
-    print(response.text)
+    #print(response.text)
     json_obj=json.loads(response.text)['data']['Parts']
     info={
         "nowsize":0,
@@ -201,8 +201,8 @@ def CheckUploadList(upload_data,filepath):
                     break
             info['nowPartNumber'] = int(obj.get('PartNumber'))
             info['nowsize'] += int(obj.get('Size'))
-            print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
-            print('nowsize='+str(info['nowsize']))
+            #print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
+            #print('nowsize='+str(info['nowsize']))
     info['nowPartNumber']+=1
     return info
     
@@ -248,7 +248,7 @@ def uploader():
                 file_path=""
                 filename=""
                 filesize=0
-                print('loop')
+                #print('loop')
                 #fileinfo[filepath]=f.readline().strip().replace('\n',''))
                 if len(downfile_list)==0 and download_flag==1:
                     #print('case 1')

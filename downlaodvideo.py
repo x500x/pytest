@@ -17,7 +17,8 @@ import urllib.request
 def downloader(url, local_filename):
     opener = urllib.request.build_opener()
     # 构建请求头列表每次随机选择一个
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36')]
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36')]
+    opener.addheaders = [('referer', 'https://www.bilibili.com')]
     urllib.request.install_opener(opener)
     try:
        urllib.request.urlretrieve(url, local_filename)

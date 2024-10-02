@@ -223,104 +223,107 @@ def CheckThreadStatus(task_lists,upload_data_list):
             task_lists.remove(task)
 
 def uploader():
-    global download_flag
-    start=1
-    #fileinfo=""
-    task_lists=[] #线程池所有已提交任务列表
-    upload_data_list={}
-    max_workers=5
-    
-    
-    
-    # = ThreadPoolExecutor(max_workers=max_workers)
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        while True:
-            start=1
-            file_path=""
-            filename=""
-            filesize=0
-            #print('loop')
-            #fileinfo[filepath]=f.readline().strip().replace('\n',''))
-            if len(downfile_list)==0 and download_flag==1:
-                #print('case 1')
-                wait(task_lists,return_when=ALL_COMPLETED)
-                CheckThreadStatus(task_lists,upload_data_list)
-                #print(f"beforeDel lentask={len(task_lists)}")
-                del task_lists
-                print('all upload finished.')
-                break
-            if len(downfile_list)==0 and download_flag==0:
-                #print(f'{download_flag}case 2')
-                time.sleep(1)
-                continue
-            else:
-                #with lock:
-                file_path=downfile_list.pop()
-                print("path"+file_path)
-                if ""==file_path:
-                    break
-                #    del downfile_list[0]
-            
-            filesize = os.path.getsize(file_path)
-            #print(fileinfo[filesize])
-            filename = os.path.basename(file_path)
-            print(filename)
-            
-            
-            md5_hash = hashlib.md5()
-            with open(file_path,"rb") as f:
-                # Read and update hash in chunks of 4K
-                for byte_block in iter(lambda: f.read(4096),b""):
-                    md5_hash.update(byte_block)
-                print(md5_hash.hexdigest())
-            
-            
-            #task_lists.append(executor.submit())
-            
-            upload_data=json.loads(preUpload(md5_hash,filename,filesize))['data']
-            
-            #print('upload_info='+str(len(upload_info)))
-            #print('upload_data='+str(len(upload_data)))
-            
-            if 0==len(upload_data):
-                print('get upload_data err')
-            else:
-                if True==upload_data['Reuse']:
-                    print("Reuse success")
-                else:
-                    if filesize%int(upload_data['SliceSize'])==0:
-                        upload_data['parts']=filesize//int(upload_data['SliceSize'])
-                    else:
-                        upload_data['parts']=(filesize//int(upload_data['SliceSize']))+1
-                    print('\nReuse:',upload_data['Reuse'])
-                    
-                    print(f"parts={upload_data['parts']}")
-                    upload_data['nowpartnumber']=0
-                    upload_data['filesize']=filesize
-                    upload_data_list[int(upload_data['FileId'])]=upload_data
-                    print(upload_data_list[int(upload_data['FileId'])])
-                    
-                    with open(file_path, 'rb') as f:
-                        info=CheckUploadList(upload_data,file_path)
-                        f.seek(info['nowsize'],0)
-                        start=info['nowPartNumber']
-                        #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
-                        
-                        
-                        for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
-                            while True:
-                                if len(task_lists)<8:
-                                    task_lists.append(executor.submit(lambda cxp:PutFileChunk(*cxp),(start,upload_data,byte)))
-                                    #task_lists.append(executor.submit(PutFileChunk,start,upload_data,byte))
-                                    print(f"a task has append,now tasklen={len(task_lists)}")
-                                    start+=1
-                                    break
-                                #else:
-                                #    pass
-                                    #prepareForFutureUpload()
-                                CheckThreadStatus(task_lists,upload_data_list)
-                                time.sleep(1)
+    try:
+        global download_flag
+        start=1
+        #fileinfo=""
+        task_lists=[] #线程池所有已提交任务列表
+        upload_data_list={}
+        max_workers=5
+        
+        
+        
+        # = ThreadPoolExecutor(max_workers=max_workers)
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            while True:
+                start=1
+                file_path=""
+                filename=""
+                filesize=0
+                #print('loop')
+                #fileinfo[filepath]=f.readline().strip().replace('\n',''))
+                if len(downfile_list)==0 and download_flag==1:
+                    #print('case 1')
+                    wait(task_lists,return_when=ALL_COMPLETED)
                     CheckThreadStatus(task_lists,upload_data_list)
+                    #print(f"beforeDel lentask={len(task_lists)}")
+                    del task_lists
+                    print('all upload finished.')
+                    break
+                if len(downfile_list)==0 and download_flag==0:
+                    #print(f'{download_flag}case 2')
+                    time.sleep(1)
+                    continue
+                else:
+                    #with lock:
+                    file_path=downfile_list.pop()
+                    print("path"+file_path)
+                    if ""==file_path:
+                        break
+                    #    del downfile_list[0]
+                
+                filesize = os.path.getsize(file_path)
+                #print(fileinfo[filesize])
+                filename = os.path.basename(file_path)
+                print(filename)
+                
+                
+                md5_hash = hashlib.md5()
+                with open(file_path,"rb") as f:
+                    # Read and update hash in chunks of 4K
+                    for byte_block in iter(lambda: f.read(4096),b""):
+                        md5_hash.update(byte_block)
+                    print(md5_hash.hexdigest())
+                
+                
+                #task_lists.append(executor.submit())
+                
+                upload_data=json.loads(preUpload(md5_hash,filename,filesize))['data']
+                
+                #print('upload_info='+str(len(upload_info)))
+                #print('upload_data='+str(len(upload_data)))
+                
+                if 0==len(upload_data):
+                    print('get upload_data err')
+                else:
+                    if True==upload_data['Reuse']:
+                        print("Reuse success")
+                    else:
+                        if filesize%int(upload_data['SliceSize'])==0:
+                            upload_data['parts']=filesize//int(upload_data['SliceSize'])
+                        else:
+                            upload_data['parts']=(filesize//int(upload_data['SliceSize']))+1
+                        print('\nReuse:',upload_data['Reuse'])
+                        
+                        print(f"parts={upload_data['parts']}")
+                        upload_data['nowpartnumber']=0
+                        upload_data['filesize']=filesize
+                        upload_data_list[int(upload_data['FileId'])]=upload_data
+                        print(upload_data_list[int(upload_data['FileId'])])
+                        
+                        with open(file_path, 'rb') as f:
+                            info=CheckUploadList(upload_data,file_path)
+                            f.seek(info['nowsize'],0)
+                            start=info['nowPartNumber']
+                            #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
+                            
+                            
+                            for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
+                                while True:
+                                    if len(task_lists)<8:
+                                        task_lists.append(executor.submit(lambda cxp:PutFileChunk(*cxp),(start,upload_data,byte)))
+                                        #task_lists.append(executor.submit(PutFileChunk,start,upload_data,byte))
+                                        print(f"a task has append,now tasklen={len(task_lists)}")
+                                        start+=1
+                                        break
+                                    #else:
+                                    #    pass
+                                        #prepareForFutureUpload()
+                                    CheckThreadStatus(task_lists,upload_data_list)
+                                    time.sleep(1)
+                        CheckThreadStatus(task_lists,upload_data_list)
+    except KeyboardInterrupt:
+        pass
                     #if len(task_lists)==0:
                     #    break
         #wait(task_lists,return_when=ALL_COMPLETED)            

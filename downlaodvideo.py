@@ -14,20 +14,21 @@ import subprocess
 def downloader(url, local_filename):
     headers = {
   'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-  'referer': "https://www.bilibili.com",
+  'referer': "https://www.bilibili.com"
     }
-    try:
-        with requests.get(url, headers=headers,stream=True) as r:
+    with requests.get(url, headers=headers,stream=True) as r:
+        try:
+        
             #r.raise_for_status()
             with open(local_filename, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=1024*1024):
                     if chunk:
                         f.write(chunk)
                         f.flush()
-    except Exception as e:
-       print("err:", str(e))
-       r.raise_for_status()
-       return 1
+        except Exception as e:
+           print("err:", str(e))
+           r.raise_for_status()
+           return 1
     return 0
 
 

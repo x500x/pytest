@@ -204,8 +204,6 @@ def CheckUploadList(upload_data,filepath):
             print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
             print('nowsize='+str(info['nowsize']))
     info['nowPartNumber']+=1
-    if info['nowPartNumber']==upload_data['parts']:
-         CompleteUpload(upload_data)
     return info
     
 def CheckThreadStatus(task_lists,upload_data_list):
@@ -316,8 +314,9 @@ def uploader():
                             f.seek(info['nowsize'],0)
                             start=info['nowPartNumber']
                             #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
-                            
-                            
+                            if start-1==upload_data['parts']:
+                                CompleteUpload(upload_data)
+                                continue
                             for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
                                 while True:
                                     if len(task_lists)<8:

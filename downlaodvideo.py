@@ -9,6 +9,7 @@ import threading
 from uploadEx import uploader,download_flag,downfile_list
 import sys
 import io
+import subprocess
 
 
 def downloader(url, local_filename):
@@ -35,12 +36,12 @@ def ProcessTask(video_url,audio_url,file_path):
     if 0!=downloader(video_url,file_path+'[00].m4s'):
         if 0!=downloader(video_url,file_path+'[00].m4s'):
             print("downerr::"+file_path+'[00].m4s')
-            return ''
+            return ''"
     if 0!=downloader(audio_url,file_path+'[01].m4s'):
         if 0!=downloader(audio_url,file_path+'[01].m4s'):
             print("downerr::"+file_path+'[01].m4s')
-            return ''
-    os.system(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].mp4 -c:v copy -c:a copy -f mp4 {file_path}.mp4")
+            return ''"
+    subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].mp4 -c:v copy -c:a copy -f mp4 {file_path}.mp4", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         os.remove(file_path+'[00].m4s')
         os.remove(file_path+'[01].m4s')
@@ -60,7 +61,6 @@ def assignTask(f):
     #global downfilelist #for github
     global download_flag
     
-    start=0
     with ProcessPoolExecutor(max_workers=3) as executor:
         while True:
             video_url=f.readline().strip()
@@ -70,7 +70,7 @@ def assignTask(f):
                 #download_flag=1
                 #print("when read file,there has a err")
                 break
-            p=pool.submit(ProcessTask, args=(video_url,audio_url,))
+            p=executor.submit(ProcessTask,video_url,audio_url,name)
             process_lists.append(p)
             #wait()
             for task in process_lists:

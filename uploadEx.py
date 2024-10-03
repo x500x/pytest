@@ -210,7 +210,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
     
     #time.sleep(12)
     #return
-    for i in range(0,len(task_lists)):
+    for i in range(0,len(task_lists)-1):
         task=task_lists[i]
         print("CheckThreadStatus called")
         if task.done():

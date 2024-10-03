@@ -210,10 +210,12 @@ def CheckThreadStatus(task_lists,upload_data_list):
     
     #time.sleep(12)
     #return
-    for task in task_lists:
+    for i in range(0,len(task_lists)):
+        task=task_lists[i]
+        print("CheckThreadStatus called")
         if task.done():
-            #print("CheckThreadStatus one done")
-            #print(task)
+            print(f"CheckThreadStatus one done,lentask={len(task_lists)}")
+            #print()
             #print(str(task.result()))
             try:
                 if task.result()>=0:
@@ -225,6 +227,8 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     if upload_data['nowpartnumber']==upload_data['parts']:
                         
                         CompleteUpload(upload_data)
+                        del upload_data_list[task.result()]
+                        print(f"del one upload_data_list done,NowLenupload_data_list={len(upload_data_list)}")
                         try:
                             os.remove(upload_data['filepath'])
                         except OSError as e:
@@ -233,7 +237,8 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     print('there hava an error about putfile')
             except Exception as e:
                 print(f"Task failed: {e}")
-            task_lists.remove(task)
+            del task_lists[i]
+            print(f"del one task_lists done,NowLenTask={len(task_lists)}")
 
 def uploader():
     try:
@@ -335,9 +340,9 @@ def uploader():
                                         print(f"a task has append,now tasklen={len(task_lists)}")
                                         start+=1
                                         break
-                                    
-                                    CheckThreadStatus(task_lists,upload_data_list)
-                                    time.sleep(1)
+                                    else:
+                                        CheckThreadStatus(task_lists,upload_data_list)
+                                        time.sleep(1)
                         CheckThreadStatus(task_lists,upload_data_list)
     except KeyboardInterrupt:
         pass

@@ -212,7 +212,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
     #return
     while len(task_lists)>0:
         task=task_lists.pop()
-        print("CheckThreadStatus called")
+        #print("CheckThreadStatus called")
         if task.done():
             print(f"CheckThreadStatus one done,lentask={len(task_lists)}")
             #print()

@@ -223,12 +223,12 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     upload_data=upload_data_list[task.result()]
                     #print(upload_data)
                     upload_data['nowpartnumber']+=1
-                    print(f"CheckThreadStatus called,nowpartnumber={upload_data['nowpartnumber']},parts={upload_data['parts']}")
+                    #print(f"CheckThreadStatus called,nowpartnumber={upload_data['nowpartnumber']},parts={upload_data['parts']}")
                     if upload_data['nowpartnumber']==upload_data['parts']:
                         
                         CompleteUpload(upload_data)
                         del upload_data_list[task.result()]
-                        print(f"del one upload_data_list done,NowLenupload_data_list={len(upload_data_list)}")
+                        #print(f"del one upload_data_list done,NowLenupload_data_list={len(upload_data_list)}")
                         try:
                             os.remove(upload_data['filepath'])
                         except OSError as e:
@@ -239,7 +239,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
                 print(f"Task failed: {e}")
             #del task_lists[i]
             
-            print(f"del one task_lists done,NowLenTask={len(task_lists)}")
+            #print(f"del one task_lists done,NowLenTask={len(task_lists)}")
         else:
             task_lists.append(task)
 
@@ -273,6 +273,7 @@ def uploader():
                     break
                 if len(downfile_list)==0 and download_flag==0:
                     #print(f'{download_flag}case 2')
+                    CheckThreadStatus(task_lists,upload_data_list)
                     time.sleep(1)
                     continue
                 else:
@@ -323,18 +324,21 @@ def uploader():
                         upload_data_list[int(upload_data['FileId'])]=upload_data
                         print(upload_data_list[int(upload_data['FileId'])])
                         
+                        info=CheckUploadList(upload_data,file_path)
+                        start=info['nowPartNumber']
+                        if start-1==upload_data['parts']:
+                            CompleteUpload(upload_data)
+                            try:
+                                os.remove(upload_data['filepath'])
+                            except OSError as e:
+                                print(f'Error occurred: {e}')
+                            continue
                         with open(file_path, 'rb') as f:
-                            info=CheckUploadList(upload_data,file_path)
+                            
                             f.seek(info['nowsize'],0)
-                            start=info['nowPartNumber']
+                            #start=info['nowPartNumber']
                             #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
-                            if start-1==upload_data['parts']:
-                                CompleteUpload(upload_data)
-                                try:
-                                    os.remove(upload_data['filepath'])
-                                except OSError as e:
-                                    print(f'Error occurred: {e}')
-                                continue
+                            
                             for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
                                 while True:
                                     if len(task_lists)<8:
@@ -346,7 +350,8 @@ def uploader():
                                     else:
                                         CheckThreadStatus(task_lists,upload_data_list)
                                         time.sleep(1)
-                        CheckThreadStatus(task_lists,upload_data_list)
+                        
+                        #CheckThreadStatus(task_lists,upload_data_list)
     except KeyboardInterrupt:
         pass
                     #if len(task_lists)==0:

@@ -195,7 +195,7 @@ def CheckUploadList(upload_data,filepath):
             if ETag!="\""+md5_hash.hexdigest()+"\"":
                 presignedUrl=json.loads(GetUploadUrl(int(obj.get('PartNumber')),int(obj.get('PartNumber'))+1,upload_data))['data']['presignedUrls']
                 retry=0
-                while 0!=PutFileChunk(presignedUrl[str(int(obj.get('PartNumber')))],byte) and retry<6:
+                while 0!=PutFileChunk(presignedUrl[str(int(obj.get('PartNumber')))],upload_data,byte) and retry<6:
                     presignedUrl=json.loads(GetUploadUrl(int(obj.get('PartNumber')),int(obj.get('PartNumber'))+1,upload_data))['data']['presignedUrls']
                 if retry>=6:
                     break
@@ -250,7 +250,7 @@ def uploader():
         #fileinfo=""
         task_lists=[] #线程池所有已提交任务列表
         upload_data_list={}
-        max_workers=5
+        max_workers=3
         
         
         

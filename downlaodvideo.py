@@ -83,8 +83,8 @@ def assignTask(f):
                 p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
                 process_lists.append(p)
                 #wait()
-                while len(task_lists)>0:
-                    task.pop()
+                while len(process_lists.append)>0:
+                    task=process_lists.pop()
                     if task.done():
                         #print("task done")
                         #print("result:"+task.result())
@@ -92,8 +92,8 @@ def assignTask(f):
                             ChangeVar(downfilepath=task.result())
                     else:
                         process_lists.append(task)
-            while len(task_lists)>0:
-                task.pop()
+            while len(process_lists.append)>0:
+                task=process_lists.pop()
                 if task.done():
                     #print("task done")
                     #print("result:"+task.result())

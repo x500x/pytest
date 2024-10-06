@@ -70,39 +70,43 @@ def assignTask(f):
     #global downfilelist #for github
     #global download_flag
     process_lists=[]
-    with ProcessPoolExecutor(max_workers=3) as executor:
-        while True:
-            video_url=f.readline().strip()
-            audio_url=f.readline().strip()
-            name=f.readline().strip()
-            if video_url=="" or audio_url=="" or name=="":
-                #download_flag=1
-                #print("when read file,there has a err")
-                break
-            p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
-            process_lists.append(p)
-            #wait()
-            for task in process_lists:
+    try:
+        with ProcessPoolExecutor(max_workers=3) as executor:
+            while True:
+                video_url=f.readline().strip()
+                audio_url=f.readline().strip()
+                name=f.readline().strip()
+                if video_url=="" or audio_url=="" or name=="":
+                    #download_flag=1
+                    #print("when read file,there has a err")
+                    break
+                p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
+                process_lists.append(p)
+                #wait()
+                while len(task_lists)>0:
+                    task.pop()
+                    if task.done():
+                        #print("task done")
+                        #print("result:"+task.result())
+                        if task.result()!="":
+                            ChangeVar(downfilepath=task.result())
+                    else:
+                        process_lists.append(task)
+            while len(task_lists)>0:
+                task.pop()
                 if task.done():
                     #print("task done")
                     #print("result:"+task.result())
                     if task.result()!="":
                         ChangeVar(downfilepath=task.result())
-                        #print(downfile_list)
-                        #downfilelist.append(task.result())
-                    process_lists.remove(task)
-        while len(process_lists)!=0:
-            for task in process_lists:
-                if task.done():
-                    #print("task done")
-                    #print("result:"+task.result())
-                    if task.result()!="":
-                        #downfile_list.append(task.result())
-                        ChangeVar(downfilepath=task.result())
-                        #print(task.result())
-                        #downfilelist.append(task.result())
-                    process_lists.remove(task)
-    ChangeVar(downloadflag=1)
+                else:
+                    process_lists.append(task)
+    except Exception as err:
+        print(f"when assignTask had an err:\n{err}")
+    except BaseException as err:
+        print(f"when assignTask had an err:\n{err}")
+    finally:
+        ChangeVar(downloadflag=1)
 
         
  

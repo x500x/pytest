@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed,wait, ALL_COMPLETED
 import time
+import random
 import requests
 import json
 import os
@@ -64,6 +65,7 @@ def preUpload(md5_hash,filename,filesize):
 
 
 def GetUploadUrl(start,end,upload_data):
+    re_try=0
     url = "https://www.123pan.com/b/api/file/s3_repare_upload_parts_batch"
     
     
@@ -76,16 +78,24 @@ def GetUploadUrl(start,end,upload_data):
       "StorageNode": upload_data['StorageNode']
     })
     
-    
-    
-    response = requests.post(url, data=payload, headers=headers)
-    while 200!=response.status_code:
-        print('GetUploadUrlcalled,status_code='+str(response.status_code))
-        response = requests.post(url, data=payload, headers=headers)
-    #print("\n**************************\n")
-    #print(response.text)
-    #print('\n')
-    return response.text
+    while re_try<5:
+        try:
+            response = requests.post(url, data=payload, headers=headers)
+            while 200!=response.status_code:
+                print('GetUploadUrlcalled,status_code='+str(response.status_code))
+                response = requests.post(url, data=payload, headers=headers)
+            #print("\n**************************\n")
+            #print(response.text)
+            #print('\n')
+            return response.text
+        except Exception as err:
+            re_try+=1
+            time.sleep(random.random())
+            print(f"when CheckUploadList had an err:\n{err}")
+        except BaseException as err:
+            re_try+=1
+            time.sleep(random.random())
+            print(f"when CheckUploadList had an err:\n{err}")
     
 def CompleteUpload(upload_data):
     url = "https://www.123pan.com/b/api/file/upload_complete/v2"
@@ -162,6 +172,7 @@ def PutFileChunk(part,upload_data,byte):
     return -1        
     
 def CheckUploadList(upload_data,filepath):
+    re_try=0
     url = "https://www.123pan.com/b/api/file/s3_list_upload_parts"
     
     payload = json.dumps({
@@ -170,41 +181,44 @@ def CheckUploadList(upload_data,filepath):
       "uploadId": upload_data['UploadId'],
       "StorageNode": upload_data['StorageNode']
     })
-    
-    
-    response = requests.post(url,  data=payload, headers=headers)
-    while 200!=response.status_code:
-        print('CheckUploadListcalled,status_code='+str(response.status_code))
-        response = requests.post(url,  data=payload, headers=headers)
-    #print(response.text)
-    json_obj=json.loads(response.text)['data']['Parts']
-    info={
-        "nowsize":0,
-        "nowPartNumber":0
-    }
-    if isinstance(json_obj,type(None)):
-        print('isNoneType\n')
-        info['nowPartNumber']+=1
-        return info
-    with open(filepath,"rb") as f:
-        for obj in json_obj:
-            ETag = obj.get('ETag')
-            byte=f.read(int(obj.get('Size')))
-            md5_hash = hashlib.md5()
-            md5_hash.update(byte)
-            if ETag!="\""+md5_hash.hexdigest()+"\"":
-                presignedUrl=json.loads(GetUploadUrl(int(obj.get('PartNumber')),int(obj.get('PartNumber'))+1,upload_data))['data']['presignedUrls']
-                retry=0
-                while 0!=PutFileChunk(presignedUrl[str(int(obj.get('PartNumber')))],upload_data,byte) and retry<6:
-                    presignedUrl=json.loads(GetUploadUrl(int(obj.get('PartNumber')),int(obj.get('PartNumber'))+1,upload_data))['data']['presignedUrls']
-                if retry>=6:
-                    break
-            info['nowPartNumber'] = int(obj.get('PartNumber'))
-            info['nowsize'] += int(obj.get('Size'))
-            #print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
-            #print('nowsize='+str(info['nowsize']))
-    info['nowPartNumber']+=1
-    return info
+    while re_try<5:
+        try:
+            response = requests.post(url,  data=payload, headers=headers)
+            while 200!=response.status_code:
+                print('CheckUploadListcalled,status_code='+str(response.status_code))
+                response = requests.post(url,  data=payload, headers=headers)
+            #print(response.text)
+            json_obj=json.loads(response.text)['data']['Parts']
+            info={
+                "nowsize":0,
+                "nowPartNumber":0
+            }
+            if isinstance(json_obj,type(None)):
+                print('isNoneType\n')
+                info['nowPartNumber']+=1
+                return info
+            with open(filepath,"rb") as f:
+                for obj in json_obj:
+                    ETag = obj.get('ETag')
+                    byte=f.read(int(obj.get('Size')))
+                    md5_hash = hashlib.md5()
+                    md5_hash.update(byte)
+                    if ETag!="\""+md5_hash.hexdigest()+"\"":
+                        PutFileChunk(int(obj.get('PartNumber')),upload_data,byte)
+                    info['nowPartNumber'] = int(obj.get('PartNumber'))
+                    info['nowsize'] += int(obj.get('Size'))
+                    #print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
+                    #print('nowsize='+str(info['nowsize']))
+            info['nowPartNumber']+=1
+            return info
+        except Exception as err:
+            re_try+=1
+            time.sleep(random.random())
+            print(f"when CheckUploadList had an err:\n{err}")
+        except BaseException as err:
+            re_try+=1
+            time.sleep(random.random())
+            print(f"when CheckUploadList had an err:\n{err}")
     
 def CheckThreadStatus(task_lists,upload_data_list):
     
@@ -250,7 +264,7 @@ def uploader():
         #fileinfo=""
         task_lists=[] #线程池所有已提交任务列表
         upload_data_list={}
-        max_workers=3
+        max_workers=5
         
         
         
@@ -341,7 +355,7 @@ def uploader():
                             
                             for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
                                 while True:
-                                    if len(task_lists)<8:
+                                    if len(task_lists)<max_workers+3:
                                         task_lists.append(executor.submit(lambda cxp:PutFileChunk(*cxp),(start,upload_data,byte)))
                                         #task_lists.append(executor.submit(PutFileChunk,start,upload_data,byte))
                                         print(f"a task has append,now tasklen={len(task_lists)}")

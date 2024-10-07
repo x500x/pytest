@@ -278,7 +278,7 @@ def uploader():
                 filesize=0
                 #print('loop')
                 #fileinfo[filepath]=f.readline().strip().replace('\n',''))
-                if len(downfile_list)==0 and download_flag==1:
+                if len(downfile_list)==0 and download_flag==1 and len(task_lists)==0:
                     #print('case 1')
                     wait(task_lists,return_when=ALL_COMPLETED)
                     CheckThreadStatus(task_lists,upload_data_list)
@@ -337,10 +337,11 @@ def uploader():
                         upload_data['filesize']=filesize
                         upload_data['filepath']=file_path
                         upload_data_list[int(upload_data['FileId'])]=upload_data
-                        print(upload_data_list[int(upload_data['FileId'])])
+                        #print(upload_data_list[int(upload_data['FileId'])])
                         
                         info=CheckUploadList(upload_data,file_path)
                         start=info['nowPartNumber']
+                        print(upload_data_list[int(upload_data['FileId'])])
                         if start-1==upload_data['parts']:
                             CompleteUpload(upload_data)
                             try:
@@ -359,7 +360,7 @@ def uploader():
                                     if len(task_lists)<max_workers+3:
                                         task_lists.append(executor.submit(lambda cxp:PutFileChunk(*cxp),(start,upload_data,byte)))
                                         #task_lists.append(executor.submit(PutFileChunk,start,upload_data,byte))
-                                        print(f"a task has append,now tasklen={len(task_lists)}")
+                                        print(f"a task has append({filename}),now tasklen={len(task_lists)}")
                                         start+=1
                                         break
                                     else:

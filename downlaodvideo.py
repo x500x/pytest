@@ -56,7 +56,7 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        #print("file downed")
+        print("file downed")
         return file_path+".mp4"
     else:
         print("file does not exist")
@@ -95,8 +95,8 @@ def assignTask(f):
             while len(process_lists)>0:
                 task=process_lists.pop()
                 if task.done():
-                    #print("task done")
-                    #print("result:"+task.result())
+                    print("task done")
+                    print("result:"+task.result())
                     if task.result()!="":
                         ChangeVar(downfilepath=task.result())
                 else:

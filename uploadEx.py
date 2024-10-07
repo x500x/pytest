@@ -258,6 +258,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
             task_lists.append(task)
 
 def uploader():
+    print("start upload")
     try:
         global download_flag
         start=1

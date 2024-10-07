@@ -341,6 +341,7 @@ def uploader():
                         
                         info=CheckUploadList(upload_data,file_path)
                         start=info['nowPartNumber']
+                        upload_data['nowpartnumber']=info['nowPartNumber']-1
                         print(upload_data_list[int(upload_data['FileId'])])
                         if start-1==upload_data['parts']:
                             CompleteUpload(upload_data)

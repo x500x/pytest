@@ -343,7 +343,7 @@ def uploader():
                         start=info['nowPartNumber']
                         upload_data['nowpartnumber']=info['nowPartNumber']-1
                         print(upload_data_list[int(upload_data['FileId'])])
-                        if start-1==upload_data['parts']:
+                        if start-1>=upload_data['parts']:
                             CompleteUpload(upload_data)
                             try:
                                 os.remove(upload_data['filepath'])

@@ -279,7 +279,7 @@ def uploader():
                 filesize=0
                 #print('loop')
                 #fileinfo[filepath]=f.readline().strip().replace('\n',''))
-                if len(downfile_list)==0 and download_flag==1 and len(task_lists)==0:
+                if len(downfile_list)==0 and download_flag==1:
                     #print('case 1')
                     wait(task_lists,return_when=ALL_COMPLETED)
                     CheckThreadStatus(task_lists,upload_data_list)
@@ -292,6 +292,7 @@ def uploader():
                     CheckThreadStatus(task_lists,upload_data_list)
                     time.sleep(1)
                     continue
+                #elif len(downfile_list)>0:
                 else:
                     #with lock:
                     file_path=downfile_list.pop()

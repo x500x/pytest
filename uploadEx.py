@@ -206,6 +206,7 @@ def CheckUploadList(upload_data,filepath):
                     if ETag!="\""+md5_hash.hexdigest()+"\"":
                         PutFileChunk(int(obj.get('PartNumber')),upload_data,byte)
                     info['nowPartNumber'] = int(obj.get('PartNumber'))
+                    upload_data["nowpartcount"]+=1
                     info['nowsize'] += int(obj.get('Size'))
                     #print(f"PartNumber: {obj.get('PartNumber')}, Size: {obj.get('Size')},ETag: {ETag}")
                     #print('nowsize='+str(info['nowsize']))
@@ -236,9 +237,9 @@ def CheckThreadStatus(task_lists,upload_data_list):
                     #print(str(task.result()))
                     upload_data=upload_data_list[task.result()]
                     #print(upload_data)
-                    upload_data['nowpartnumber']+=1
+                    upload_data['nowpartcount']+=1
                     #print(f"CheckThreadStatus called,nowpartnumber={upload_data['nowpartnumber']},parts={upload_data['parts']}")
-                    if upload_data['nowpartnumber']==upload_data['parts']:
+                    if upload_data['nowpartcount']==upload_data['parts']:
                         
                         CompleteUpload(upload_data)
                         del upload_data_list[task.result()]
@@ -334,6 +335,7 @@ def uploader():
                         
                         print(f"parts={upload_data['parts']}")
                         upload_data['nowpartnumber']=0
+                        upload_data["nowpartcount"]=0
                         upload_data['filesize']=filesize
                         upload_data['filepath']=file_path
                         upload_data_list[int(upload_data['FileId'])]=upload_data
@@ -341,9 +343,9 @@ def uploader():
                         
                         info=CheckUploadList(upload_data,file_path)
                         start=info['nowPartNumber']
-                        upload_data['nowpartnumber']=info['nowPartNumber']-1
+                        
                         print(upload_data_list[int(upload_data['FileId'])])
-                        if start-1>=upload_data['parts']:
+                        if upload_data["nowpartcount"]==upload_data['parts']:
                             CompleteUpload(upload_data)
                             try:
                                 os.remove(upload_data['filepath'])
@@ -353,8 +355,6 @@ def uploader():
                         with open(file_path, 'rb') as f:
                             
                             f.seek(info['nowsize'],0)
-                            #start=info['nowPartNumber']
-                            #fileinfo[fileparts]=fileinfo[fileparts]-(info['nowPartNumber']-1)
                             
                             for byte in iter(lambda: f.read(int(upload_data['SliceSize'])),b""):
                                 while True:

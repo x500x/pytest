@@ -84,7 +84,7 @@ def assignTask(f):
                 process_lists.append(p)
                 #wait()
                 while len(process_lists)>0:
-                    task=process_lists.pop()
+                    task=process_lists.pop(0)
                     if task.done():
                         #print("task done")
                         #print("result:"+task.result())
@@ -93,7 +93,7 @@ def assignTask(f):
                     else:
                         process_lists.append(task)
             while len(process_lists)>0:
-                task=process_lists.pop()
+                task=process_lists.pop(0)
                 if task.done():
                     print("task done")
                     print("result:"+task.result())

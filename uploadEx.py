@@ -226,7 +226,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
     #time.sleep(12)
     #return
     while len(task_lists)>0:
-        task=task_lists.pop()
+        task=task_lists.pop(0)
         #print("CheckThreadStatus called")
         if task.done():
             print(f"CheckThreadStatus one done,lentask={len(task_lists)}")
@@ -295,7 +295,7 @@ def uploader():
                 #elif len(downfile_list)>0:
                 else:
                     #with lock:
-                    file_path=downfile_list.pop()
+                    file_path=downfile_list.pop(0)
                     print("path"+file_path)
                     if ""==file_path:
                         break

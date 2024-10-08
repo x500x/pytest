@@ -113,9 +113,11 @@ def assignTask(f):
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8') as f:
-      t=threading.Thread(target=assignTask,args=(f,))
+      #t=threading.Thread(target=assignTask,args=(f,))
+      t=threading.Thread(target=uploader)
       t.start()
-      uploader()
+      #uploader()
+      assignTask(f)
       t.join()
     
     t.join()

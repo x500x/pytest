@@ -225,8 +225,8 @@ def CheckThreadStatus(task_lists,upload_data_list):
     
     #time.sleep(12)
     #return
-    while len(task_lists)>0:
-        task=task_lists.pop(0)
+    for i in range(0,len(task_lists)):
+        task=task_lists[i]
         #print("CheckThreadStatus called")
         if task.done():
             print(f"CheckThreadStatus one done,lentask={len(task_lists)}")
@@ -243,6 +243,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
                         
                         CompleteUpload(upload_data)
                         del upload_data_list[task.result()]
+                        task_lists.pop(i)
                         #print(f"del one upload_data_list done,NowLenupload_data_list={len(upload_data_list)}")
                         try:
                             os.remove(upload_data['filepath'])
@@ -255,8 +256,8 @@ def CheckThreadStatus(task_lists,upload_data_list):
             #del task_lists[i]
             
             #print(f"del one task_lists done,NowLenTask={len(task_lists)}")
-        else:
-            task_lists.append(task)
+        #else:
+            #task_lists.append(task)
 
 def uploader():
     print("start upload")

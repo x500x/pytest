@@ -71,7 +71,7 @@ def assignTask(f):
     #global download_flag
     process_lists=[]
     try:
-        with ProcessPoolExecutor(max_workers=3) as executor:
+        with ThreadPoolExecutor(max_workers=3) as executor:
             while True:
                 video_url=f.readline().strip()
                 audio_url=f.readline().strip()

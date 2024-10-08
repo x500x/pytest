@@ -6,7 +6,7 @@ import json
 import os
 from concurrent.futures import ProcessPoolExecutor
 import threading
-from uploadEx import uploader,ChangeVar
+from uploadEx import uploader
 import sys
 import io
 import subprocess
@@ -56,7 +56,7 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        print("file downed")
+        print(f"{file_path}.mp4 downed")
         return file_path+".mp4"
     else:
         print("file does not exist")
@@ -77,50 +77,22 @@ def assignTask(f):
                 audio_url=f.readline().strip()
                 name=f.readline().strip()
                 if video_url=="" or audio_url=="" or name=="":
-                    #download_flag=1
-                    #print("when read file,there has a err")
                     break
                 p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
                 process_lists.append(p)
-                #wait()
-                while len(process_lists)>0:
-                    task=process_lists.pop(0)
-                    if task.done():
-                        #print("task done")
-                        #print("result:"+task.result())
-                        if task.result()!="":
-                            ChangeVar(downfilepath=task.result())
-                    else:
-                        process_lists.append(task)
-            while len(process_lists)>0:
-                task=process_lists.pop(0)
-                if task.done():
-                    print("task done")
-                    print("result:"+task.result())
-                    if task.result()!="":
-                        ChangeVar(downfilepath=task.result())
-                else:
-                    process_lists.append(task)
     except Exception as err:
         print(f"when assignTask had an err:\n{err}")
     except BaseException as err:
         print(f"when assignTask had an err:\n{err}")
-    finally:
-        ChangeVar(downloadflag=1)
+    uploader(process_lists)
 
         
  
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8') as f:
-      #t=threading.Thread(target=assignTask,args=(f,))
-      t=threading.Thread(target=uploader)
-      t.start()
-      #uploader()
-      assignTask(f)
-      t.join()
+        assignTask(f)
     
-    t.join()
+    
     #print(downfile_list)
     print("done")
-    

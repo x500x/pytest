@@ -260,7 +260,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
         else:
             task_lists.append(task)
 
-def uploader():
+def uploader(process_lists):
     print("start upload")
     try:
         global download_flag
@@ -291,6 +291,24 @@ def uploader():
                     break
                 if len(downfile_list)==0 and download_flag==0:
                     #print(f'{download_flag}case 2')
+                    try:
+                        for i in range(0,len(process_lists)):
+                            task=process_lists.pop(0)
+                            if task.done():
+                                print("task done")
+                                print("result:"+task.result())
+                                if task.result()!="":
+                                    ChangeVar(downfilepath=task.result())
+                            else:
+                                process_lists.append(task)
+                    except Exception as err:
+                        print(f"when assignTask had an err:\n{err}")
+                        ChangeVar(downloadflag=1)
+                    except BaseException as err:
+                        print(f"when assignTask had an err:\n{err}")
+                        ChangeVar(downloadflag=1)
+                    if len(process_lists)==0:
+                        ChangeVar(downloadflag=1)
                     CheckThreadStatus(task_lists,upload_data_list)
                     time.sleep(1)
                     continue

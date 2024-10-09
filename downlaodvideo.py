@@ -4,7 +4,7 @@ import requests
 import re
 import json
 import os
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 import threading
 from uploadEx import uploader
 import sys
@@ -71,7 +71,7 @@ def assignTask(f):
     #global download_flag
     process_lists=[]
     try:
-        with ThreadPoolExecutor(max_workers=3) as executor:
+        with ProcessPoolExecutor(max_workers=3) as executor:
             while True:
                 video_url=f.readline().strip()
                 audio_url=f.readline().strip()
@@ -80,11 +80,11 @@ def assignTask(f):
                     break
                 p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
                 process_lists.append(p)
+            uploader(process_lists)
     except Exception as err:
         print(f"when assignTask had an err:\n{err}")
     except BaseException as err:
         print(f"when assignTask had an err:\n{err}")
-    uploader(process_lists)
 
         
  

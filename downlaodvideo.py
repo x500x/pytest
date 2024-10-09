@@ -1,4 +1,3 @@
-# -*- coding: UTF-8 -*-
 #from icecream import ic
 import requests
 import re

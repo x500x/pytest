@@ -14,11 +14,11 @@ download_flag=0 #1->have done download,0->not
 def ChangeVar(downfilepath='',downloadflag=0):
     global downfile_list
     global download_flag
-    print(downfilepath)
-    print(str(downloadflag))
+    #print(downfilepath)
+    #print(str(downloadflag))
     if downfilepath!="": downfile_list.append(downfilepath)
     download_flag=downloadflag
-    print(f"ChangeVar Called,downfile_list={downfile_list},download_flag={download_flag}")
+    #print(f"ChangeVar Called,downfile_list={downfile_list},download_flag={download_flag}")
 
 headers = {
       'User-Agent': "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
@@ -56,7 +56,7 @@ def preUpload(md5_hash,filename,filesize):
     
     response = requests.post(url, data=payload, headers=headers)
     while 200!=response.status_code:
-        print('preUploadcalled,status_code='+str(response.status_code))
+        #print('preUploadcalled,status_code='+str(response.status_code))
         response = requests.post(url, data=payload, headers=headers)
     #print("\n**************************\n")
     #print(response.text)
@@ -82,7 +82,7 @@ def GetUploadUrl(start,end,upload_data):
         try:
             response = requests.post(url, data=payload, headers=headers)
             while 200!=response.status_code:
-                print('GetUploadUrlcalled,status_code='+str(response.status_code))
+                #print('GetUploadUrlcalled,status_code='+str(response.status_code))
                 response = requests.post(url, data=payload, headers=headers)
             #print("\n**************************\n")
             #print(response.text)
@@ -156,7 +156,7 @@ def PutFileChunk(part,upload_data,byte):
             continue
         else:
             retry=0
-        print(response.headers.get('ETag'))
+        #print(response.headers.get('ETag'))
         md5_hash = hashlib.md5()
         md5_hash.update(byte)
         if response.headers.get('ETag')!="\""+md5_hash.hexdigest()+"\"":
@@ -194,7 +194,7 @@ def CheckUploadList(upload_data,filepath):
                 "nowPartNumber":0
             }
             if isinstance(json_obj,type(None)):
-                print('isNoneType\n')
+                #print('isNoneType\n')
                 info['nowPartNumber']+=1
                 return info
             with open(filepath,"rb") as f:
@@ -261,7 +261,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
             task_lists.append(task)
 
 def uploader(process_lists):
-    print("start upload")
+    #print("start upload")
     try:
         global download_flag
         start=1
@@ -295,8 +295,8 @@ def uploader(process_lists):
                         for i in range(0,len(process_lists)):
                             task=process_lists.pop(0)
                             if task.done():
-                                print("task done")
-                                print("result:"+task.result())
+                                #print("")
+                                print("task done,result:"+task.result())
                                 if task.result()!="":
                                     ChangeVar(downfilepath=task.result())
                             else:
@@ -316,7 +316,7 @@ def uploader(process_lists):
                 else:
                     #with lock:
                     file_path=downfile_list.pop(0)
-                    print("path"+file_path)
+                    print("path:"+file_path)
                     if ""==file_path:
                         break
                     #    del downfile_list[0]
@@ -324,7 +324,7 @@ def uploader(process_lists):
                 filesize = os.path.getsize(file_path)
                 #print(fileinfo[filesize])
                 filename = os.path.basename(file_path)
-                print(filename)
+                #print(filename)
                 
                 
                 md5_hash = hashlib.md5()
@@ -352,10 +352,10 @@ def uploader(process_lists):
                             upload_data['parts']=filesize//int(upload_data['SliceSize'])
                         else:
                             upload_data['parts']=(filesize//int(upload_data['SliceSize']))+1
-                        print('\nReuse:',upload_data['Reuse'])
+                        #print('\nReuse:',upload_data['Reuse'])
                         
-                        print(f"parts={upload_data['parts']}")
-                        upload_data['nowpartnumber']=0
+                        #print(f"parts={upload_data['parts']}")
+                        #upload_data['nowpartnumber']=0
                         upload_data["nowpartcount"]=0
                         upload_data['filesize']=filesize
                         upload_data['filepath']=file_path

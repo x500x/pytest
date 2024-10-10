@@ -58,7 +58,13 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        print(ProcessStr(file_path)+" downed")
+        try:
+            print(eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')+" downed")
+            print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
+        except Exception as err:
+            pass
+        except BaseException as err:
+            pass
         return file_path+".mp4"
     else:
         print("file does not exist")

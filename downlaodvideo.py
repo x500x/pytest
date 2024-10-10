@@ -35,6 +35,8 @@ def downloader(url, local_filename):
 
 
 def ProcessTask(video_url,audio_url,file_path):
+    def ProcessStr(s):
+        return file_path+".mp4"
     if 0!=downloader(video_url,file_path+'[00].m4s'):
         if 0!=downloader(video_url,file_path+'[00].m4s'):
             #print("downerr::"+file_path.encode()+'[00].m4s')
@@ -56,7 +58,7 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        print(file_path.encode('utf-8').decode()+".mp4"+"file downed")
+        print(ProcessStr(file_path)+" downed")
         return file_path+".mp4"
     else:
         print("file does not exist")
@@ -90,6 +92,7 @@ def assignTask(f):
  
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
     with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8') as f:
         assignTask(f)
     

@@ -56,7 +56,7 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        print(file_path.encode("unicode_escape").decode()+".mp4"+"file downed")
+        print(file_path.encode('utf-8').decode()+".mp4"+"file downed")
         return file_path+".mp4"
     else:
         print("file does not exist")

@@ -316,7 +316,7 @@ def uploader(process_lists):
                 else:
                     #with lock:
                     file_path=downfile_list.pop(0)
-                    print("path:"+file_path)
+                    #print("path:"+file_path)
                     if ""==file_path:
                         break
                     #    del downfile_list[0]

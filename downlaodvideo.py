@@ -61,7 +61,8 @@ def ProcessTask(video_url,audio_url,file_path):
         try:
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
-            print(os.path.basename(file_path)+".mp4 downed")
+            print(eval('"' + os.path.basename(file_path) + '"')+".mp4 downed")
+            #print(video_url)
         except Exception as err:
             print(f'print err:{err}')
             pass

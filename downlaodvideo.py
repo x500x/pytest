@@ -59,8 +59,9 @@ def ProcessTask(video_url,audio_url,file_path):
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
         try:
-            print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
+            #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
+            print(os.path.basename(file_path)+".mp4 downed")
         except Exception as err:
             print(f'print err:{err}')
             pass
@@ -99,9 +100,9 @@ def assignTask(f):
         
  
 if __name__ == '__main__':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-    with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8') as f:
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8-sig')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8-sig')
+    with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8-sig') as f:
         assignTask(f)
     
     

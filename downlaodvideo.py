@@ -59,8 +59,8 @@ def ProcessTask(video_url,audio_url,file_path):
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
         try:
-            #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
-            print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
+            print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
+            #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
         except Exception as err:
             print(f'print err:{err}')
             pass

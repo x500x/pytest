@@ -60,21 +60,14 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        try:
-            print(file_path+".mp4 downed")
-        except Exception as err:
-            print(f'print err:{err}')
-            pass
-        except BaseException as err:
-            print(f'print err:{err}')
-            pass
+        
         try:
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
-            print(file_path.encode('utf-8').decode("unicode_escape"))
-            print(file_path.encode('utf-8').decode(sys.stdout.encoding)+".mp4 downed")
-            print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
+            #print(file_path.encode('utf-8').decode("unicode_escape"))
+            print(file_path+".mp4 downed")
+            #print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
             
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
             #print(video_url)
@@ -100,9 +93,9 @@ def assignTask(f):
     try:
         with ProcessPoolExecutor(max_workers=3) as executor:
             while True:
-                video_url=f.readline().strip()
-                audio_url=f.readline().strip()
-                name=f.readline().strip()
+                video_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
+                audio_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
+                name=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
                 if video_url=="" or audio_url=="" or name=="":
                     break
                 p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)

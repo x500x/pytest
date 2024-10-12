@@ -67,22 +67,22 @@ def ProcessTask(video_url,audio_url,file_path):
         except BaseException as err:
             print(f'print err:{err}')
             pass
-        # try:
-            # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-            # #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
-            # #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
-            # print(file_path.encode('utf-8').decode("unicode_escape"))
-            # print(file_path.encode('utf-8').decode("unicode_escape")+".mp4 downed")
-            # print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
+        try:
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+            #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
+            #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
+            print(file_path.encode('utf-8').decode("unicode_escape"))
+            print(file_path.encode('utf-8').decode("unicode_escape")+".mp4 downed")
+            print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
             
-            # #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
-            # #print(video_url)
-        # except Exception as err:
-            # print(f'print err:{err}')
-            # pass
-        # except BaseException as err:
-            # print(f'print err:{err}')
-            # pass
+            #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
+            #print(video_url)
+        except Exception as err:
+            print(f'print err:{err}')
+            pass
+        except BaseException as err:
+            print(f'print err:{err}')
+            pass
         return file_path+".mp4"
     else:
         print("file does not exist")

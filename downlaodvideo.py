@@ -118,9 +118,14 @@ if __name__ == '__main__':
     print(sys.getdefaultencoding())
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')#utf-8-sig
-    with codecs.open(os.getcwd()+'\\info.txt',mode="r", encoding='utf-8') as f:
+    try:
+        f=codecs.open(os.getcwd()+'\\info.txt',mode="r", encoding='utf-8')
         assignTask(f)
-        pass
+        f.close()
+    except Exception as err:
+        print(f"in main had an err:\n{err}")
+    except BaseException as err:
+        print(f"in main had an err:\n{err}")
     
     
     #print(downfile_list)

@@ -59,12 +59,21 @@ def ProcessTask(video_url,audio_url,file_path):
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
         try:
+            print(file_path)
+        except Exception as err:
+            print(f'print err:{err}')
+            pass
+        except BaseException as err:
+            print(f'print err:{err}')
+            pass
+        try:
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
             print(file_path.encode('utf-8').decode("unicode_escape"))
             print(file_path.encode('utf-8').decode("unicode_escape")+".mp4 downed")
             print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
+            
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
             #print(video_url)
         except Exception as err:
@@ -108,7 +117,7 @@ if __name__ == '__main__':
     print(sys.getdefaultencoding())
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')#utf-8-sig
-    with open(os.getcwd()+'\\info.txt',"r", encoding='utf-8') as f:
+    with codecs.open(os.getcwd()+'\\info.txt',mode="r", encoding='utf-8') as f:
         assignTask(f)
     
     

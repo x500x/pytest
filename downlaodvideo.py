@@ -117,7 +117,7 @@ if __name__ == '__main__':
     try:
         f=codecs.open(os.getcwd()+'\\info.txt',mode="r", encoding='utf-8')
         assignTask(f)
-        f.close()
+        
     except Exception as err:
         print(f"in main had an err:\n{err}")
     except BaseException as err:
@@ -126,3 +126,4 @@ if __name__ == '__main__':
     
     #print(downfile_list)
     print("done")
+    f.close()

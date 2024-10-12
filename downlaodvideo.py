@@ -9,6 +9,7 @@ from uploadEx import uploader
 import sys
 import io
 import subprocess
+import codecs
 #import unicodedata
 
 def downloader(url, local_filename):

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #from icecream import ic
 import requests
 import re
@@ -72,7 +73,7 @@ def ProcessTask(video_url,audio_url,file_path):
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
             print(file_path.encode('utf-8').decode("unicode_escape"))
-            print(file_path.encode('utf-8').decode("unicode_escape")+".mp4 downed")
+            print(file_path.encode('utf-8').decode(sys.stdout.encoding)+".mp4 downed")
             print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
             
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
@@ -116,8 +117,10 @@ def assignTask(f):
  
 if __name__ == '__main__':
     print(sys.getdefaultencoding())
+    print(sys.stdout.encoding)
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')#utf-8-sig
+    print(sys.stdout.encoding)
     try:
         f=codecs.open(os.getcwd()+'\\info.txt',mode="r", encoding='utf-8')
         assignTask(f)

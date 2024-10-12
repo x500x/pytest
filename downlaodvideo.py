@@ -47,7 +47,7 @@ def ProcessTask(video_url,audio_url,file_path):
         if 0!=downloader(audio_url,file_path+'[01].m4s'):
             #print("downerr::"+file_path+'[01].m4s')
             return ""
-    ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
+    ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i '{file_path}[00].m4s' -i '{file_path}[01].m4s' -c:v copy -c:a copy -f mp4 '{file_path}.mp4'", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
     print(f"ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
@@ -93,9 +93,9 @@ def assignTask(f):
     try:
         with ProcessPoolExecutor(max_workers=3) as executor:
             while True:
-                video_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
-                audio_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
-                name=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
+                if not f.closed: video_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
+                if not f.closed: audio_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
+                if not f.closed: name=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
                 if video_url=="" or audio_url=="" or name=="":
                     break
                 p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
@@ -126,4 +126,5 @@ if __name__ == '__main__':
     
     #print(downfile_list)
     print("done")
-    f.close()
+    if not f.closed:
+        f.close()

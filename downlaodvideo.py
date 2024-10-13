@@ -46,7 +46,7 @@ def ProcessTask(video_url,audio_url,file_path):
         if 0!=downloader(audio_url,file_path+'[01].m4s'):
             #print("downerr::"+file_path+'[01].m4s')
             return ""
-    ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{_filepath}[00].m4s\" -i \"{_filepath}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{_filepath}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
+    ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
     print(f"{_filepath}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")

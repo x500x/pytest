@@ -263,6 +263,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
 
 def uploader(process_lists):
     #print("start upload")
+    print(f"in upploader sys.stdout.encoding={sys.stdout.encoding}")
     try:
         global download_flag
         start=1
@@ -298,7 +299,7 @@ def uploader(process_lists):
                             if task.done():
                                 #print("")
                                 #print("task done,result:".encode('utf-8').decode(sys.stdout.encoding)+task.result().encode('utf-8').decode(sys.stdout.encoding))
-                                print("task done,result:"+task.result())
+                                print("a task done,result:"+task.result())
                                 if task.result()!="":
                                     ChangeVar(downfilepath=task.result())
                             else:

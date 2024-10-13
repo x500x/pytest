@@ -32,7 +32,7 @@ jobs:
       - name: run python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.5.10'
+          python-version: '3.7.5'
       - run: pip install requests
       #- run: pip install ffmpy3
       #- run: pip install you-get

@@ -302,10 +302,10 @@ def uploader(process_lists):
                             else:
                                 process_lists.append(task)
                     except Exception as err:
-                        print(f"when assignTask had an err:\n{err}")
+                        print(f"in uploader when assignTask had an err:\n{err}")
                         ChangeVar(downloadflag=1)
                     except BaseException as err:
-                        print(f"when assignTask had an err:\n{err}")
+                        print(f"in uploader when assignTask had an err:\n{err}")
                         ChangeVar(downloadflag=1)
                     if len(process_lists)==0:
                         ChangeVar(downloadflag=1)
@@ -392,6 +392,10 @@ def uploader(process_lists):
                         #CheckThreadStatus(task_lists,upload_data_list)
     except KeyboardInterrupt:
         pass
+    except Exception as err:
+        print(f"in upload had an err:\n{err}")
+    except BaseException as err:
+        print(f"in upload had an err:\n{err}")
                     #if len(task_lists)==0:
                     #    break
         #wait(task_lists,return_when=ALL_COMPLETED)            

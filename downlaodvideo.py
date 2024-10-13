@@ -37,8 +37,6 @@ def downloader(url, local_filename):
 
 
 def ProcessTask(video_url,audio_url,file_path):
-    def ProcessStr(s):
-        return file_path+".mp4"
     if 0!=downloader(video_url,file_path+'[00].m4s'):
         if 0!=downloader(video_url,file_path+'[00].m4s'):
             #print("downerr::"+file_path.encode()+'[00].m4s')
@@ -49,7 +47,7 @@ def ProcessTask(video_url,audio_url,file_path):
             return ""
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
-    print(f"ret={ret}")
+    print(f"{file_path}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
     #if os.path.isfile(file_path+'[01].m4s'): print("exist 01")
 
@@ -91,6 +89,7 @@ def assignTask(f):
     #global download_flag
     process_lists=[]
     try:
+        print(f"sys.stdout.encoding={sys.stdout.encoding}")
         with ProcessPoolExecutor(max_workers=3) as executor:
             while True:
                 if not f.closed: video_url=f.readline().strip().encode('utf-8').decode(sys.stdout.encoding)
@@ -103,6 +102,8 @@ def assignTask(f):
             uploader(process_lists)
     except Exception as err:
         print(f"when assignTask had an err:\n{err}")
+        print(f.closed)
+        print(f.readline().strip().encode('utf-8').decode(sys.stdout.encoding))
     except BaseException as err:
         print(f"when assignTask had an err:\n{err}")
 

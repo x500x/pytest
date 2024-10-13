@@ -7,7 +7,7 @@ import os
 import hashlib
 from urllib.parse import urlparse, parse_qs
 import gc
-import sys
+#import sys
 
 downfile_list=[]
 download_flag=0 #1->have done download,0->not
@@ -263,7 +263,7 @@ def CheckThreadStatus(task_lists,upload_data_list):
 
 def uploader(process_lists):
     #print("start upload")
-    print(f"in upploader sys.stdout.encoding={sys.stdout.encoding}")
+    #print(f"in upploader sys.stdout.encoding={sys.stdout.encoding}")
     try:
         global download_flag
         start=1

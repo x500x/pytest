@@ -49,6 +49,7 @@ def ProcessTask(video_url,audio_url,file_path):
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
     print(f"{_filepath}.mp4 merged,ret={ret}")
+    print(f"{file_path}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
     #if os.path.isfile(file_path+'[01].m4s'): print("exist 01")
 
@@ -66,6 +67,7 @@ def ProcessTask(video_url,audio_url,file_path):
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
             #print(file_path.encode('utf-8').decode("unicode_escape"))
             print(_filepath+".mp4 downed")
+            print(f"{file_path}.mp4 downed")
             #print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
             
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")

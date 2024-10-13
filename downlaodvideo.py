@@ -78,7 +78,8 @@ def ProcessTask(video_url,audio_url,file_path):
         except BaseException as err:
             print(f'print err:{err}')
             pass
-        return file_path+".mp4"
+        file_path+=".mp4"
+        return file_path.encode('utf-8').decode(sys.stdout.encoding)
     else:
         print("file does not exist")
         return ""

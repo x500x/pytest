@@ -69,7 +69,9 @@ def ProcessTask(video_url,audio_url,file_path):
             print(_filepath+".mp4 downed")
             print(f"{file_path}.mp4 downed")
             #print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
-            
+            file_path+=".mp4"
+            print("test,"+file_path.encode('utf-8').decode(sys.stdout.encoding))
+            return file_path.encode('utf-8').decode(sys.stdout.encoding)
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
             #print(video_url)
         except Exception as err:
@@ -78,8 +80,8 @@ def ProcessTask(video_url,audio_url,file_path):
         except BaseException as err:
             print(f'print err:{err}')
             pass
-        file_path+=".mp4"
-        return file_path.encode('utf-8').decode(sys.stdout.encoding)
+        # file_path+=".mp4"
+        # return file_path.encode('utf-8').decode(sys.stdout.encoding)
     else:
         print("file does not exist")
         return ""

@@ -297,7 +297,8 @@ def uploader(process_lists):
                             task=process_lists.pop(0)
                             if task.done():
                                 #print("")
-                                print("task done,result:".encode('utf-8').decode(sys.stdout.encoding)+task.result().encode('utf-8').decode(sys.stdout.encoding))
+                                #print("task done,result:".encode('utf-8').decode(sys.stdout.encoding)+task.result().encode('utf-8').decode(sys.stdout.encoding))
+                                print("task done,result:"+task.result())
                                 if task.result()!="":
                                     ChangeVar(downfilepath=task.result())
                             else:

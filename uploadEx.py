@@ -8,6 +8,7 @@ import os
 import hashlib
 from urllib.parse import urlparse, parse_qs
 import gc
+import chardet
 #import sys
 
 downfile_list=[]

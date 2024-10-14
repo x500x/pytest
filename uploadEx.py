@@ -17,7 +17,7 @@ download_flag=0 #1->have done download,0->not
 def ChangeVar(downfilepath='',downloadflag=0):
     global downfile_list
     global download_flag
-    #print(downfilepath)
+    print(f"submit={downfilepath}")
     #print(str(downloadflag))
     if downfilepath!="": downfile_list.append(downfilepath)
     download_flag=downloadflag
@@ -268,6 +268,7 @@ def uploader(process_lists):
     #print(f"in upploader sys.stdout.encoding={sys.stdout.encoding}")
     try:
         global download_flag
+        global downfile_list
         start=1
         #fileinfo=""
         task_lists=[] #线程池所有已提交任务列表
@@ -293,32 +294,36 @@ def uploader(process_lists):
                     del task_lists
                     print('all upload finished.')
                     break
-                if len(downfile_list)==0 and download_flag==0:
-                    #print(f'{download_flag}case 2')
-                    try:
-                        for i in range(0,len(process_lists)):
-                            task=process_lists.pop(0)
-                            if task.done():
-                                #print(chardet.detect(task.result()))
-                                if task.result()!="":
-                                    ChangeVar(downfilepath=task.result())
-                            else:
-                                process_lists.append(task)
-                    except Exception as err:
-                        print(f"in uploader when assignTask had an err:\n{err}")
-                        ChangeVar(downloadflag=1)
-                    except BaseException as err:
-                        print(f"in uploader when assignTask had an err:\n{err}")
-                        ChangeVar(downloadflag=1)
-                    if len(process_lists)==0:
-                        ChangeVar(downloadflag=1)
-                    CheckThreadStatus(task_lists,upload_data_list)
-                    time.sleep(1)
-                    continue
-                #elif len(downfile_list)>0:
+                # if len(downfile_list)==0 and download_flag==0:
+                    # #print(f'{download_flag}case 2')
+                    # try:
+                        # for i in range(0,len(process_lists)):
+                            # task=process_lists.pop(0)
+                            # if task.done():
+                                # #print(chardet.detect(task.result()))
+                                # if task.result()!="":
+                                    # ChangeVar(downfilepath=task.result())
+                            # else:
+                                # process_lists.append(task)
+                    # except Exception as err:
+                        # print(f"in uploader when assignTask had an err:\n{err}")
+                        # ChangeVar(downloadflag=1)
+                    # except BaseException as err:
+                        # print(f"in uploader when assignTask had an err:\n{err}")
+                        # ChangeVar(downloadflag=1)
+                    # if len(process_lists)==0:
+                        # ChangeVar(downloadflag=1)
+                    # CheckThreadStatus(task_lists,upload_data_list)
+                    # time.sleep(1)
+                    # continue
+                # #elif len(downfile_list)>0:
                 else:
                     #with lock:
-                    file_path=downfile_list.pop(0)
+                    if len(downfile_list)>0:
+                        file_path=downfile_list.pop(0)
+                    else:
+                        time.sleep(1)
+                        continue
                     #print("path:"+file_path)
                     if ""==file_path:
                         break

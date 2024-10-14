@@ -6,7 +6,7 @@ import json
 import os
 from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 import threading
-from uploadEx import uploader
+from uploadEx import uploader,ChangeVar
 import sys
 import io
 import subprocess
@@ -49,7 +49,7 @@ def ProcessTask(video_url,audio_url,file_path):
             return ""
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
-    #print(chardet.detect(file_path.encode('utf-8')))
+    print(chardet.detect(file_path.encode('utf-8')))
     print(f"{_filepath}.mp4 merged,ret={ret}")
     print(f"{file_path}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
@@ -62,7 +62,8 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        return file_path+".mp4"
+        #return file_path+".mp4"
+        ChangeVar(downfilepath=file_path+".mp4")
         try:
             #sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
@@ -72,8 +73,8 @@ def ProcessTask(video_url,audio_url,file_path):
             print(f"{file_path}.mp4 downed")
             #print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
             file_path+=".mp4"
-            print("test,"+file_path.encode('utf-8').decode(sys.stdout.encoding))
-            return file_path.encode('utf-8').decode(sys.stdout.encoding)
+            #print("test,"+file_path.encode('utf-8').decode(sys.stdout.encoding))
+            return file_path
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
             #print(video_url)
         except Exception as err:

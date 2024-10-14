@@ -10,6 +10,7 @@ from uploadEx import uploader
 import sys
 import io
 import subprocess
+import chardet
 import codecs
 #import unicodedata
 
@@ -48,6 +49,7 @@ def ProcessTask(video_url,audio_url,file_path):
             return ""
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
+    print(chardet.detect(file_path.encode('utf-8')))
     print(f"{_filepath}.mp4 merged,ret={ret}")
     print(f"{file_path}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
@@ -60,9 +62,9 @@ def ProcessTask(video_url,audio_url,file_path):
     except OSError as e:
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
-        
+        return file_path+".mp4"
         try:
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+            #sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
             #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
             #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
             #print(file_path.encode('utf-8').decode("unicode_escape"))
@@ -103,8 +105,7 @@ def assignTask(f):
                 if not f.closed: name=f.readline().strip()
                 if video_url=="" or audio_url=="" or name=="":
                     break
-                p=executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name)
-                process_lists.append(p)
+                process_lists.append(executor.submit(ProcessTask,video_url,audio_url,"C:\\"+name))
             uploader(process_lists)
     except Exception as err:
         print(f"when assignTask had an err:\n{err}")

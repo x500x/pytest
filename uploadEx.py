@@ -299,7 +299,7 @@ def uploader(process_lists):
                         for i in range(0,len(process_lists)):
                             task=process_lists.pop(0)
                             if task.done():
-                                print(chardet.detect(task.result()))
+                                #print(chardet.detect(task.result()))
                                 if task.result()!="":
                                     ChangeVar(downfilepath=task.result())
                             else:

@@ -302,6 +302,7 @@ def uploader(process_lists):
                                 #print("")
                                 #print("task done,result:".encode('utf-8').decode(sys.stdout.encoding)+task.result().encode('utf-8').decode(sys.stdout.encoding))
                                 print(chardet.detect(task.result().encode('utf-8')))
+                                time.sleep(1)
                                 print("a task done,result:"+task.result().decode("UTF-8").strip())
                                 if task.result()!="":
                                     ChangeVar(downfilepath=task.result())

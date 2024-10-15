@@ -49,9 +49,10 @@ def ProcessTask(video_url,audio_url,file_path):
             return ""
     ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i \"{file_path}[00].m4s\" -i \"{file_path}[01].m4s\" -c:v copy -c:a copy -f mp4 \"{file_path}.mp4\"", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True)
     #ret=subprocess.call(f".\\ffmpeg-7.0.2-full_build\\bin\\ffmpeg.exe -i {file_path}[00].m4s -i {file_path}[01].m4s -c:v copy -c:a copy -f mp4 {file_path}.mp4",shell=True)
+    ChangeVar(downfilepath=file_path+".mp4")
     print(chardet.detect(file_path.encode('utf-8')))
     print(f"{_filepath}.mp4 merged,ret={ret}")
-    print(f"{file_path}.mp4 merged,ret={ret}")
+    #print(f"{file_path}.mp4 merged,ret={ret}")
     #if os.path.isfile(file_path+'[00].m4s'): print("exist 00")
     #if os.path.isfile(file_path+'[01].m4s'): print("exist 01")
 
@@ -63,7 +64,7 @@ def ProcessTask(video_url,audio_url,file_path):
         print(f'Error occurred: {e}')
     if os.path.isfile(file_path+".mp4"):
         #return file_path+".mp4"
-        ChangeVar(downfilepath=file_path+".mp4")
+        #ChangeVar(downfilepath=file_path+".mp4")
         return file_path+".mp4"
     else:
         print("file does not exist")

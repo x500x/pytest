@@ -64,27 +64,7 @@ def ProcessTask(video_url,audio_url,file_path):
     if os.path.isfile(file_path+".mp4"):
         #return file_path+".mp4"
         ChangeVar(downfilepath=file_path+".mp4")
-        try:
-            #sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-            #print(f"{eval('"' + file_path.encode("unicode_escape").decode('utf-8') + '"')} downed")
-            #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode('utf-8') + '"')+".mp4 downed")
-            #print(file_path.encode('utf-8').decode("unicode_escape"))
-            print(_filepath+".mp4 downed")
-            print(f"{file_path}.mp4 downed")
-            #print(os.path.basename(file_path.encode('utf-8').decode("unicode_escape")).encode('utf-8').decode("unicode_escape")+".mp4")
-            file_path+=".mp4"
-            #print("test,"+file_path.encode('utf-8').decode(sys.stdout.encoding))
-            return file_path
-            #print(eval('"' + os.path.basename(file_path).encode("unicode_escape").decode() + '"')+".mp4 downed")
-            #print(video_url)
-        except Exception as err:
-            print(f'print err:{err}')
-            pass
-        except BaseException as err:
-            print(f'print err:{err}')
-            pass
-        # file_path+=".mp4"
-        # return file_path.encode('utf-8').decode(sys.stdout.encoding)
+        return file_path+".mp4"
     else:
         print("file does not exist")
         return ""
